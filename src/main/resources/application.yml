@@ -1,0 +1,17 @@
+server:
+  port: 8101
+
+couchbase:
+      bootstrap-hosts: 127.0.0.1
+      username: Admin
+      password: p8NwfHhmW58STdx
+      bucket: beer-sample
+      bucket2: travel-sample
+
+couchbase2:
+    bootstrap-hosts: 127.0.0.1
+    username: Admin
+    password: p8NwfHhmW58STdx
+    bucket: gamesim-sample
+
+
