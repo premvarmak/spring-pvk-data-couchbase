@@ -1,7 +1,13 @@
 package com.nephos.cb;
 
+import com.couchbase.client.core.env.PasswordAuthenticator;
+import com.couchbase.client.java.Cluster;
+import com.couchbase.client.java.ClusterOptions;
+import com.couchbase.client.java.env.ClusterEnvironment;
+import com.nephos.cb.model.GamesSample;
 import com.nephos.cb.model.TravelSample;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.couchbase.CouchbaseClientFactory;
 import org.springframework.data.couchbase.SimpleCouchbaseClientFactory;
@@ -23,6 +29,17 @@ public class NephosCbConfig extends AbstractCouchbaseConfiguration {
     private String bucketName;
     @Value("${couchbase.bucket2}")
     private String travelSampleBucket;
+
+    @Value("${couchbase2.bootstrap-hosts}")
+    private String connectionString2;
+    @Value("${couchbase2.username}")
+    private String userName2;
+    @Value("${couchbase2.password}")
+    private String password2;
+    @Value("${couchbase2.bucket}")
+    private String gameismBucket;
+
+
 
     @Override
     public String getConnectionString() {
@@ -51,6 +68,10 @@ public class NephosCbConfig extends AbstractCouchbaseConfiguration {
             CouchbaseTemplate travelSampleTemplate = myCouchbaseTemplate(myCouchbaseClientFactory(travelSampleBucket),new MappingCouchbaseConverter());
             baseMapping.mapEntity(TravelSample.class,  travelSampleTemplate); // TravelSample mapped to "travel-sample" bucket
 
+            // Setting Up second Cluster
+            CouchbaseClientFactory gamesCbClientFactory = new SimpleCouchbaseClientFactory(connectionString2, PasswordAuthenticator.create(userName2, password2), gameismBucket );
+            CouchbaseTemplate gamesimSampleTemplate = myCouchbaseTemplate(gamesCbClientFactory, new MappingCouchbaseConverter());
+            baseMapping.mapEntity(GamesSample.class, gamesimSampleTemplate);
         } catch (Exception e) {
             throw e;
         }
@@ -65,4 +86,5 @@ public class NephosCbConfig extends AbstractCouchbaseConfiguration {
         return new SimpleCouchbaseClientFactory(getConnectionString(), authenticator(), bucketName );
     }
     /* Multi bucket configuration END */
+
 }

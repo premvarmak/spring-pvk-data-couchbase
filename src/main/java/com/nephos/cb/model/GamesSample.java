@@ -27,4 +27,5 @@ public class GamesSample {
 
     @Field("level")
     private int level;
+
 }
