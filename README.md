@@ -1,4 +1,4 @@
-# spring-pvk-data-couchbase
+# spring-pvk-data-couchbase - Demo of multi bucket & multi cluster connections
 
 This is a sample application which connects to a couchbase cluster setup locally.
 
